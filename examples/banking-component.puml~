@@ -1,0 +1,32 @@
+@startuml
+
+!include ../c4-macros.puml
+
+C4_COMPONENT_TITLE("Internet Banking system")
+
+C4_PERSON(customer, "Banking Customer", "A customer of the bank,\nwith personal bank accounts.")
+
+C4_SYSTEM_OUTLINE(bankingSystem, "Banking System") {
+  C4_CONTAINER(web, "Web Application", "Java, Spring MVC", "Delivers the static content and the\ninternet banking single page\napplication.")
+  C4_CONTAINER(spa, "Single-Page Application", "Javascript, Angular", "Provides all of the internet banking\nfunctionality to customers via their\nweb browser.")
+  C4_CONTAINER(mobile, "Mobile App", "Xamarin", "Provides a limited subset of the\ninternel banking functionality to\ncustomers via their mobile device.")
+  C4_CONTAINER(api, "API Application", "Java and Spring MVC", "Provides internet banking\nfunctionality via JSON/HTTPS API")
+  C4_CONTAINER(db, "Database", "RDBMS", "Stores user registration information,\nhashed authentication credentials,\naccess logs, etc.")
+}
+
+C4_OTHER_SYSTEM(emailSystem, "E-Mail System", "The internal Exchange\ne-mail system.")
+C4_OTHER_SYSTEM(mainframe, "Mainframe Banking System", "Stores all of the core banking\ninformation about customers,\naccounts, transactions, etc.")
+
+customer .d.> web: C4_REL("Uses", "https")
+customer .d.> spa: C4_REL("Uses")
+customer .d.> mobile: C4_REL("Uses")
+web .r.> spa: C4_REL("Delivers")
+spa ..> api: C4_REL("Uses", "json/https")
+mobile ..> api: C4_REL("Uses", "json/https")
+api .l.> db: C4_REL("Reads and Writes", "jdbc")
+api .r.> mainframe: C4_REL("Uses", "xml/https")
+api .u.> emailSystem: C4_REL("Sends emails using", "SMTP")
+emailSystem .u.> customer: C4_REL("Sends emails to")
+
+@enduml
+

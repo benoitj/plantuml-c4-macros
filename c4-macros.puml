@@ -1,0 +1,109 @@
+@startuml
+
+!ifndef C4_PERSON_FONTCOLOR
+  !define C4_PERSON_FONTCOLOR White
+!endif
+
+!ifndef C4_SYSTEM_FONTCOLOR
+  !define C4_SYSTEM_FONTCOLOR White
+!endif
+
+!ifndef C4_OUTLINE_FONTCOLOR
+  !define C4_OUTLINE_FONTCOLOR Black
+!endif
+
+!ifndef C4_OTHER_SYSTEM_FONTCOLOR
+  !define C4_OTHER_SYSTEM_FONTCOLOR White
+!endif
+
+!ifndef C4_CONTAINER_FONTCOLOR
+  !define C4_CONTAINER_FONTCOLOR White
+!endif
+
+!ifndef C4_COMPONENT_FONTCOLOR
+  !define C4_COMPONENT_FONTCOLOR Black
+!endif
+
+!ifndef C4_PERSON_BGCOLOR
+  !define C4_PERSON_BGCOLOR Navy
+!endif
+
+!ifndef C4_SYSTEM_BGCOLOR
+  !define C4_SYSTEM_BGCOLOR RoyalBlue
+!endif
+
+!ifndef C4_OUTLINE_BGCOLOR
+  !define C4_OUTLINE_BGCOLOR White
+!endif
+
+!ifndef C4_OTHER_SYSTEM_BGCOLOR
+  !define C4_OTHER_SYSTEM_BGCOLOR Grey
+!endif
+
+!ifndef C4_CONTAINER_BGCOLOR
+  !define C4_CONTAINER_BGCOLOR RoyalBlue
+!endif
+
+!ifndef C4_COMPONENT_BGCOLOR
+  !define C4_COMPONENT_BGCOLOR LightSkyBlue
+!endif
+
+skinparam defaultTextAlignment center
+skinparam maxMessageSize 100
+skinparam shadowing false
+hide stereotypes
+
+skinparam component {
+          ArrowColor Black
+}
+
+skinparam rectangle {
+  roundCorner 10 
+  roundCorner<<person>> 30 
+  ArrowColor Black
+  BorderThickness 0
+  backgroundColor DarkGrey
+  FontColor<<person>> C4_PERSON_FONTCOLOR
+  FontColor<<system>> C4_SYSTEM_FONTCOLOR
+  FontColor<<outline>> C4_OUTLINE_FONTCOLOR
+  FontColor<<other_system>> C4_OTHER_SYSTEM_FONTCOLOR
+  FontColor<<container>> C4_CONTAINER_FONTCOLOR
+  FontColor<<component>> C4_COMPONENT_FONTCOLOR
+
+  backgroundColor<<person>> C4_PERSON_BGCOLOR
+  backgroundColor<<system>> C4_SYSTEM_BGCOLOR
+  backgroundColor<<outline>> C4_OUTLINE_BGCOLOR
+  backgroundColor<<other_system>> C4_OTHER_SYSTEM_BGCOLOR
+  backgroundColor<<container>> C4_CONTAINER_BGCOLOR
+  backgroundColor<<component>> C4_COMPONENT_BGCOLOR
+  FontColor<<outline>> black
+  BorderThickness<<outline>> 1
+  BorderStyle<<outline>> dashed
+}
+
+!definelong C4_ELEMENT(id, name, type, tDescription, description)
+rectangle id <<type>>[
+<size:18><b>name</b></size>
+<size:12>//[tDescription&#93;//</size>
+
+description
+]
+!enddefinelong
+
+!define C4_ELEMENT_OUTLINE(id, name, typeDescription) rectangle "<b>name</b>\l//[typeDescription]//" as id <<outline>>
+
+!define C4_REL(description, techno) C4_REL(description)\n<size:12>//[techno&#93;//</size>
+!define C4_REL(description) <b>description</b>
+
+!define C4_SYSTEM_CONTEXT_TITLE(value) title System Context Diagram - ##value
+!define C4_CONTAINER_TITLE(value) title Container Diagram - ##value
+!define C4_COMPONENT_TITLE(value) title Component Diagram - ##value
+!define C4_PERSON(id, name, description) C4_ELEMENT(id, name, "person", "Person", description)
+!define C4_SYSTEM(id, name, description) C4_ELEMENT(id, name, "system", "Software System", description)
+!define C4_SYSTEM_OUTLINE(id, name) C4_ELEMENT_OUTLINE(id, name, "Software System")
+!define C4_CONTAINER(id, name, techno, description) C4_ELEMENT(id, name, "container", Container: ##techno, description)
+!define C4_CONTAINER_OUTLINE(id, name) C4_ELEMENT_OUTLINE(id, name, "Container")
+!define C4_COMPONENT(id, name, techno, description) C4_ELEMENT(id, name, "component", Component: ##techno, description)
+!define C4_OTHER_SYSTEM(id, name, description) C4_ELEMENT(id, name, "other_system", "Software System", description)
+
+@enduml

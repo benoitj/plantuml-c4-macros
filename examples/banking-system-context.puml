@@ -1,0 +1,18 @@
+@startuml
+
+!include ../c4-macros.puml
+
+C4_SYSTEM_CONTEXT_TITLE("Internet Banking system")
+
+C4_PERSON(customer, "Banking Customer", "A customer of the bank,\nwith personal bank accounts.")
+C4_SYSTEM(bankingSystem, "Internet Banking System", "Allows customers to view\ninformation about their bank\naccounts, and make payments")
+C4_OTHER_SYSTEM(emailSystem, "E-Mail System", "The internal Exchange\ne-mail system.")
+C4_OTHER_SYSTEM(mainframe, "Mainframe Banking System", "Stores all of the core banking\ninformation about customers,\naccounts, transactions, etc.")
+
+customer .d.> bankingSystem: C4_REL("Uses")
+bankingSystem .r.> emailSystem: C4_REL("Sends emails using", "SMTP")
+emailSystem .u.> customer: C4_REL("Sends emails to")
+bankingSystem .d.> mainframe: C4_REL("Uses")
+
+@enduml
+

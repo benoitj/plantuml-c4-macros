@@ -1,0 +1,47 @@
+@startuml
+
+!include ../c4-macros.puml
+
+C4_COMPONENT_TITLE("Internet Banking system - API Application")
+
+C4_CONTAINER(spa, "Single-Page Application", "Javascript, Angular", "Provides all of the internet banking\nfunctionality to customers via their\nweb browser.")
+C4_CONTAINER(mobile, "Mobile App", "Xamarin", "Provides a limited subset of the\ninternel banking functionality to\ncustomers via their mobile device.")
+
+C4_CONTAINER_OUTLINE(api, "API Application") {
+  C4_COMPONENT(signin, "Sign In Controller", "Spring MVC Rest Controller", "Allows users to sign in to the internet\nBanking System")
+  C4_COMPONENT(security, "Security Component", "Spring Bean", "Provides functionality related to\nsigning in, changing passwords, etc.")
+
+  C4_COMPONENT(reset, "Reset Password Controller", "Spring MVC Rest Controller", "Allows users to reset their passwords\nwith a signgle use URL.")
+  C4_COMPONENT(email, "Email Component", "Spring Bean", "Sends e-mails to users.")
+
+  C4_COMPONENT(summary, "Account Summary Controller", "Spring MVC Rest Controller", "Provides customers with a summary\nof their bank accounts.")
+  C4_COMPONENT(mainframeFacade, "Mainframe Facade", "Spring Bean", "A facade onto the mainframe\nbanking system.")
+
+}
+
+C4_CONTAINER(db, "Database", "RDBMS", "Stores user registration information,\nhashed authentication credentials,\naccess logs, etc.")
+C4_OTHER_SYSTEM(emailSystem, "E-Mail System", "The internal Exchange\ne-mail system.")
+C4_OTHER_SYSTEM(mainframe, "Mainframe Banking System", "Stores all of the core banking\ninformation about customers,\naccounts, transactions, etc.")
+
+
+
+spa ..> signin: C4_REL("Uses", "json/https")
+spa ..> reset: C4_REL("Uses", "json/https")
+spa ..> summary: C4_REL("Uses", "json/https")
+mobile ..> signin: C4_REL("Uses", "json/https")
+mobile ..> reset: C4_REL("Uses", "json/https")
+mobile ..> summary: C4_REL("Uses", "json/https")
+
+signin ..> security: C4_REL("Uses")
+security ..> db: C4_REL("Reads and Writes", "jdbc")
+
+reset ..> email: C4_REL("Uses")
+reset ..> security: C4_REL("Uses")
+
+summary ..> mainframeFacade: C4_REL("Uses")
+
+email ..> emailSystem: C4_REL("Sends emails using", "SMTP")
+mainframeFacade ..> mainframe: C4_REL("Uses", "xml/https")
+
+@enduml
+
