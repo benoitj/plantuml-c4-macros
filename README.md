@@ -1,3 +1,5 @@
+# NOTE: Since I wrote this, quite similar C4 macros were integrated into plantuml stdlib. I have since then transitioned to it since there is no point to duplicate work. https://plantuml.com/stdlib
+
 # PlantUML macros for C4 Architecture diagrams 
 
 This is a set of macros to produce C4 architecture diagrams using plantuml text based diagram tool.
